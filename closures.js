@@ -9,6 +9,14 @@
 ////////// PROBLEM 1 //////////
 
 // Do not edit the code below.
+// function outer(){
+//   var name = 'Tyler';
+//   return 'The original name was ' + name; 
+// }
+
+// outer();
+
+
 function outer() {
   var name = 'Tyler';
   return function() {
@@ -23,13 +31,15 @@ function outer() {
 */
   
 // Code Here
-
+const inner = outer();
 
 
 //Once you do that, invoke inner.
 
 //Code Here
+inner();
 
+//So - which is it? Save outer() to const inner without parameter? Or 
 
 
 ////////// PROBLEM 2 //////////
@@ -52,7 +62,8 @@ function callFriend(name) {
 */
 
 //Code Here
-
+const callJake = callFriend('Jake');
+callJake('435-215-9248');
 
 
 ////////// PROBLEM 3 //////////
@@ -63,14 +74,19 @@ function callFriend(name) {
 
 //Code Here
 
-
+function makeCounter() {
+  let num = 0;
+  return function(){
+    return ++num;
+  }
+}
 
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -87,17 +103,22 @@ function callFriend(name) {
 
 function counterFactory(value) {
   // Code here.
-
-  return {
-
-  };
+  let countedValue = 0;
+  return { 
+    inc: function(){
+      return ++value;
+    },
+    dec: function(){
+      return --value;
+    }
+  }
 }
 
 counter = counterFactory(10);
-// counter.inc() // 11
-// counter.inc() // 12
-// counter.inc() // 13
-// counter.dec() // 12
+counter.inc() // 11
+counter.inc() // 12
+counter.inc() // 13
+counter.dec() // 12
 
 
 
@@ -113,9 +134,12 @@ function motivation( firstname, lastname ) {
   var welcomeText = "You're doing awesome, keep it up";
 
   // code message function here.
-
-  //Uncommment this to return the value of your message function
-  //return message;
+  function message() {
+    return welcomeText + " " + firstname + " " + lastname + ".";
+  }
+  
+  //Uncomment this to return the value of your message function
+  return message;
 }
 
 var greeting = motivation('Billy', 'Bob'); // 'You're doing awesome keep it up Billy Bob.
@@ -144,10 +168,13 @@ var module = (function() {
   // outside our lexical scope
   return {
     // Code here.
+    publicMethod: function() {
+      return privateMethod();
+    }
   };
 })();
 
-
+module.publicMethod();
 
 ////////// PROBLEM 7 //////////
 
@@ -163,6 +190,12 @@ function secretNumber() {
 
   return {
     // Code here
+    addToSecret: function(num){
+      return secret += num;
+    },
+    takeAwayFromSecret: function(num){
+      return secret -= num;
+    }
   };
 }
 
@@ -186,11 +219,66 @@ function secretNumber() {
   Fix the code below to log the desired output.
 */
 
+// function timeOutCounter() {
+//   for (var i = 0; i <= 5; i++) {
+//     setTimeout(function() {
+//     console.log(i);
+//     }, i * 1000);
+//   }  
+// }
+// timeOutCounter();
+
+
+//My notes: Googling closures and for loops and came across some explanations on freecodecamp's forums. Still digesting this, but this does work. They wrapped the setTimeout function in an IIFE...and I'm not totally sure why. I think part of it is that the function inside of it creates another level of scope, and doesn't affect the outer variable of i. Not sure about all of this yet. 
+
+// function timeOutCounter() {
+//   for (var i = 0; i <= 5; i++) {
+//     (function(i){
+//       setTimeout(function() {
+//         console.log(i);
+//       }, i * 1000);
+//     })(i);  
+//   }
+// }
+// timeOutCounter();
+
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000);
+    return (function(i){
+      setTimeout(function() {
+        console.log(i);
+      }, i * 1000);
+    });  
   }
 }
+
 timeOutCounter();
+
+
+// function timeOutCounter() {
+//   return function(){
+//     // console.log(i)  
+//     for (var i = 0; i <= 5; i++) {
+//       console.log(i);
+//       setTimeout(function() {
+//       // console.log(i);
+//       }, i * 1000);
+//     }  
+//   }
+// }
+// timeOutCounter();
+
+
+//Attempt 1. Didn't work.
+// function timeOutCounter() {
+//   let i = 0;
+//   return function(){
+//     for (var i = 0; i <= 5; i++) {
+//       setTimeout(function() {
+//       console.log(i);
+//       }, i * 1000);
+//     }
+//   }
+  
+// }
+// timeOutCounter();
