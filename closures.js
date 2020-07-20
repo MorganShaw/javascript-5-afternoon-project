@@ -219,6 +219,8 @@ function secretNumber() {
   Fix the code below to log the desired output.
 */
 
+//Original code to change:
+
 // function timeOutCounter() {
 //   for (var i = 0; i <= 5; i++) {
 //     setTimeout(function() {
@@ -228,57 +230,30 @@ function secretNumber() {
 // }
 // timeOutCounter();
 
-
-//My notes: Googling closures and for loops and came across some explanations on freecodecamp's forums. Still digesting this, but this does work. They wrapped the setTimeout function in an IIFE...and I'm not totally sure why. I think part of it is that the function inside of it creates another level of scope, and doesn't affect the outer variable of i. Not sure about all of this yet. 
+//Simple fix. Just change var to let. Var is global, and let is not. This works.
 
 // function timeOutCounter() {
-//   for (var i = 0; i <= 5; i++) {
-//     (function(i){
+//     for (let i = 0; i <= 5; i++) {
 //       setTimeout(function() {
-//         console.log(i);
-//       }, i * 1000);
-//     })(i);  
-//   }
-// }
-// timeOutCounter();
-
-function timeOutCounter() {
-  for (var i = 0; i <= 5; i++) {
-    return (function(i){
-      setTimeout(function() {
-        console.log(i);
-      }, i * 1000);
-    });  
-  }
-}
-
-timeOutCounter();
-
-
-// function timeOutCounter() {
-//   return function(){
-//     // console.log(i)  
-//     for (var i = 0; i <= 5; i++) {
 //       console.log(i);
-//       setTimeout(function() {
-//       // console.log(i);
 //       }, i * 1000);
 //     }  
 //   }
-// }
-// timeOutCounter();
+//   timeOutCounter();
 
 
-//Attempt 1. Didn't work.
-// function timeOutCounter() {
-//   let i = 0;
-//   return function(){
-//     for (var i = 0; i <= 5; i++) {
-//       setTimeout(function() {
-//       console.log(i);
-//       }, i * 1000);
-//     }
-//   }
-  
-// }
-// timeOutCounter();
+//My notes: Googling closures and for loops and came across some explanations on freecodecamp's forums. Still digesting this, but this does work. They wrapped the setTimeout function in an IIFE...and I'm not totally sure why. I think part of it is that the function inside of it creates another level of scope, and doesn't affect the outer variable of i. Not sure about all of this yet. 
+
+// this one using closures works...
+function timeOutCounter() {
+  for (var i = 0; i <= 5; i++) {
+    (function(i){
+      setTimeout(function() {
+        console.log(i);
+      }, i * 1000);
+    })(i);  
+  }
+}
+timeOutCounter();
+
+
