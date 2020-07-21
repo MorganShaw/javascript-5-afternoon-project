@@ -39,12 +39,12 @@ class Employee {
     this.age = age;
   }  
   makeWidget(){
-      return this.first_name + " " + this.last_name + " " + Widget
+      return `${this.first_name} ${this.last_name} Widget`
   }
 }
 
-const dave = new Employee('Dave', 'Smith', 'davesmith@go.com', 45)
-dave.makeWidget();
+// const dave = new Employee('Dave', 'Smith', 'davesmith@go.com', 45)
+// dave.makeWidget();
 
 ////////// PROBLEM 2 //////////
 
@@ -64,12 +64,22 @@ dave.makeWidget();
 //Code Here
 
 class Manager extends Employee {
-  constructor(first_name, last_name, email, age) {
-    super(first_name, last_name, email, age){
-
-    }
+  constructor(first_name, last_name, email, age, reports) {
+    super(first_name, last_name, email, age);
+      this.reports = [];
+  }
+  hire(employee){
+    this.reports.push(employee);    
+  }
+  fire(index){
+    this.reports.splice(index, 1);
+    //this.reports.findIndex('Carmen Sandiego')
+    //use that index to fire Carmen Sandiego.
   }
 }
+
+// const empMgr = new Employee('Joe', 'Schmoe', 'me@me.com', 40, 2)
+// empMgr.hire("Carmen Sandiego")
 
 ////////// PROBLEM 3 //////////
 
@@ -92,9 +102,39 @@ class Manager extends Employee {
   Call your new class ProgressiveManager
 */
 
-//Code Here
+// Code Here
+class ProgressiveManager extends Manager {
+  constructor (first_name, last_name, email, age, reports, title, bonus) {
+    super(first_name, last_name, email, age, reports);
+      this.title = "Not a manager";
+      this.bonus = 0;
+  }
+  hire(){
+    super.hire();
+    if(this.reports.length === 0) {
+      this.title = "Not a manager";
+    } else if(this.reports.length < 4) {
+      this.title = "Barely Manager"; 
+    } else if(this.reports.length < 11) { 
+      this.title = "Mostly Manager";
+    } else if(this.reports.length < 51) {
+      this.title = "Manager";
+    } else if(this.reports.length < 101) {
+      this.title = "Manager Plus";
+    } else {
+      this.title = "Bestest Manager";
+    } 
+  }
+  fire() {
+    super.fire();
+    this.bonus += 100;
+  }
+}
 
+// const progMgr = new ProgressiveManager('Joe', 'Schmoe', 'me@go.com', 40, 1, "Mgr", 0);
 
+//   progMgr.hire(1);
+//   progMgr.fire(2);
 
 ////////// PROBLEM 4 - Black Diamond //////////
 
